@@ -37,6 +37,10 @@ const UsersList = props => (
     </ListGuesser>
 );
 
+const UsersShow = props => (
+    <ShowGuesser></ShowGuesser>
+);
+
 const StudentList = props => (
     <ListGuesser {...props}>
         <FieldGuesser source="firstName"/>
