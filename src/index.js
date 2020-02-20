@@ -1,12 +1,68 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {
+    HydraAdmin,
+    ResourceGuesser,
+    ListGuesser,
+    FieldGuesser,
+    ShowGuesser,
+} from '@api-platform/admin';
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
+const entrypoint  = "https://localhost:8000/api";
+
+
+const CoursesList = props => (
+    <ListGuesser {...props}>
+        <FieldGuesser source="name"/>
+        <FieldGuesser source="author"/>
+    </ListGuesser>
+);
+
+
+
+
+const AuthorsList = props => (
+    <ListGuesser {...props}>
+        <FieldGuesser source="name"/>
+        <FieldGuesser source="courses"/>
+    </ListGuesser>
+);
+
+const UsersList = props => (
+    <ListGuesser {...props}>
+        <FieldGuesser source="email"/>
+        <FieldGuesser source="username"/>
+    </ListGuesser>
+);
+
+const StudentList = props => (
+    <ListGuesser {...props}>
+        <FieldGuesser source="firstName"/>
+        <FieldGuesser source="lastName"/>
+    </ListGuesser>
+);
+
+const StudentShow = props => (
+    <ShowGuesser {...props}>
+        <FieldGuesser source="firstName" addLabel={true}/>
+        <FieldGuesser source="lastName" addLabel={true}/>
+        <FieldGuesser source="owner" addLabel={true}/>
+        <FieldGuesser source="course" addLabel={true}/>
+    </ShowGuesser>
+);
+
+
+const Admin = () => (
+    <HydraAdmin
+        entrypoint="https://localhost:8000/api"
+        >
+        <ResourceGuesser name="courses" list={CoursesList}/>
+        <ResourceGuesser name="authors" list={AuthorsList}/>
+        <ResourceGuesser name="users" list={UsersList}/>
+        <ResourceGuesser name="students" show={StudentShow} list={StudentList}/>
+    </HydraAdmin>
+);
+ReactDOM.render(<Admin />, document.getElementById('root'));
 serviceWorker.unregister();
